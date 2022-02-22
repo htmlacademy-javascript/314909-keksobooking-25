@@ -7,7 +7,6 @@ function getRandomIntInclusive(min, max) {
   const res = min >= 0 && max >= min ? Math.floor(min + Math.random() * (max - min + 1)) : NaN;
   return res;
 }
-
 // Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно. 
 // Будет использоваться для генерации временных географических координат в следующем задании.
 // Результат: число с плавающей точкой из диапазона "от...до" с указанным "количеством знаков после запятой  (accur)"
@@ -19,5 +18,3 @@ function getRandomArbitraryInclusive(min, max, accuracy) {
 
 getRandomArbitraryInclusive(1.1, 1.2, 0.1);
 getRandomIntInclusive(1, 10);
-
-
