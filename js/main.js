@@ -9,7 +9,19 @@ function getRandomIntInclusive(min, max) {
     const res = min >= 0 && max >= min ? Math.floor(min + Math.random() * (max - min + 1)) : NaN;
     return res;
 }
+function getRandomPositiveInteger(a, b) {
+    const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
+    const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
+    const result = Math.random() * (upper - lower + 1) + lower;
+    return Math.floor(result);
+}
 
+function getRandomPositiveFloat(a, b, digits = 1) {
+    const lower = Math.min(Math.abs(a), Math.abs(b));
+    const upper = Math.max(Math.abs(a), Math.abs(b));
+    const result = Math.random() * (upper - lower) + lower;
+    return +result.toFixed(digits);
+}
 /* Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно. Будет использоваться для генерации временных географических координат в следующем задании. */
 // Результат: число с плавающей точкой из диапазона "от...до" с указанным "количеством знаков после запятой  (accur)"
 function getRandomArbitraryInclusive(min, max, accuracy = 0) {
@@ -19,3 +31,6 @@ function getRandomArbitraryInclusive(min, max, accuracy = 0) {
 
 getRandomArbitraryInclusive(1.1, 1.2, 0.1);
 getRandomIntInclusive(1, 10);
+getRandomPositiveInteger(1, 10);
+getRandomPositiveFloat(1.1, 1.2);
+
