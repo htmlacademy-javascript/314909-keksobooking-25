@@ -23,19 +23,19 @@ const DESCRIPTION = ['Описание помещения',
     'Для одиночек с животными',
 ];
 
-const MAX_ADS = 10;
-const MIN_PRICE = 1;
-const MAX_PRICE = 30000;
-const MIN_ROOMS = 1;
-const MAX_ROOMS = 5;
-const MIN_GUESTS = 1;
-const MAX_GUESTS = 10;
-const MIN_LAT = 35.65000;
-const MAX_LAT = 35.70000;
-const MIN_LNG = 139.70000;
-const MAX_LNG = 139.80000;
-const COORD_PRECISION = 5;
-const PARAMS = [MAX_ADS, MIN_PRICE, MAX_PRICE, MIN_ROOMS, MAX_ROOMS, MIN_GUESTS, MAX_GUESTS, MIN_LAT, MAX_LAT, MIN_LNG, MAX_LNG, COORD_PRECISION,
-];
+const params = {
+    MAX_ADS: 10,
+    MIN_PRICE: 1,
+    MAX_PRICE: 30000,
+    MIN_ROOMS: 1,
+    MAX_ROOMS: 5,
+    MIN_GUESTS: 1,
+    MAX_GUESTS: 10,
+    MIN_LAT: 35.65000,
+    MAX_LAT: 35.70000,
+    MIN_LNG: 139.70000,
+    MAX_LNG: 139.80000,
+    COORD_PRECISION: 5,
+};
 
-export { TYPES, TIME, FEATURES, PHOTOS, DESCRIPTION, PARAMS };
+export { TYPES, TIME, FEATURES, PHOTOS, DESCRIPTION, params };
