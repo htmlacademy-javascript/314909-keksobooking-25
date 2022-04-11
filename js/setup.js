@@ -1,19 +1,19 @@
 /* eslint-disable indent */
 import { TYPES, TIME, FEATURES, PHOTOS, DESCRIPTION, PARAMS } from './data.js';
-import { getRandomNumber, getRandomFloat, getRandomArrayElement, getRandomSlice } from './api.js';
+import { getRandomNumber, getRandomFloat, getRandomArrayElement, getRandomSlice } from './utilites.js';
 
 const createPoint = (i) => {
     const location = {
-        lat: getRandomFloat(PARAMS[7], PARAMS[8], PARAMS[11]),
-        lng: getRandomFloat(PARAMS[9], PARAMS[10], PARAMS[11]),
+        lat: getRandomFloat(PARAMS.MIN_LAT, PARAMS.MAX_LAT, PARAMS.COORD_PRECISION),
+        lng: getRandomFloat(PARAMS.MIN_LNG, PARAMS.MAX_LNG, PARAMS.COORD_PRECISION),
     };
     const offer = {
         title: 'Заголовок предложения',
         address: `${location.lat}, ${location.lng}`,
-        price: getRandomNumber(PARAMS[1], PARAMS[2]),
+        price: getRandomNumber(PARAMS.MIN_PRICE, PARAMS.MAX_PRICE),
         type: getRandomArrayElement(TYPES),
-        rooms: getRandomNumber(PARAMS[3], PARAMS[4]),
-        guests: getRandomNumber(PARAMS[5], PARAMS[6]),
+        rooms: getRandomNumber(PARAMS.MIN_ROOMS, PARAMS.MAX_ROOMS),
+        guests: getRandomNumber(PARAMS.MIN_GUESTS, PARAMS.MAX_GUESTS),
         checkin: getRandomArrayElement(TIME),
         checkout: getRandomArrayElement(TIME),
         features: getRandomSlice(FEATURES),
