@@ -1,4 +1,6 @@
 /* eslint-disable indent */
+const DEFAULT_PRECISION = 2;
+
 // Возвращает случайное целое число из переданного диапазона включительно.
 const getRandomNumber = (start, end) => {
     // eslint-disable-next-line indent
@@ -10,7 +12,7 @@ const getRandomNumber = (start, end) => {
 };
 
 // Возвращает случайное число с плавающей точкой из переданного диапазона включительно.
-const getRandomFloat = (start, end, digits = 2) => {
+const getRandomFloat = (start, end, digits = DEFAULT_PRECISION) => {
     const lower = Math.min(Math.abs(start), Math.abs(end));
     const upper = Math.max(Math.abs(start), Math.abs(end));
     const result = Math.random() * (upper - lower) + lower;
