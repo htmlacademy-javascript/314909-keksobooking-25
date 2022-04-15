@@ -8,13 +8,14 @@
 */
 
 import { arrayOfAdverts, ADVERTS_NUMBER } from './setup.js';
-import { drawAd } from './markup-generator.js';
+import { TIME_OUT } from './data.js';
+import { drawMap } from './map-generator.js';
 import { getActiveState, getUnactiveState } from './map-statement.js';
 import './form.js';
 import './map.js';
 
 arrayOfAdverts(ADVERTS_NUMBER);
-drawAd();
+drawMap();
 
 getUnactiveState();
-setTimeout(getActiveState, 2000);
+setTimeout(getActiveState, TIME_OUT);
