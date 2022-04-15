@@ -1,27 +1,33 @@
 /* eslint-disable indent */
-const form = document.querySelector('.ad-form');
-const mapFilters = document.querySelector('.map__filters');
+const advertForm = document.querySelector('.ad-form');
+const advertFormtInteractiveElements = advertForm.querySelectorAll('fieldset, button');
+const mapFilterForm = document.querySelector('.map__filters');
+const mapFilterInteractiveElements = mapFilterForm.querySelectorAll('fieldset');
 
-const getUnactiveState = () => {
-    form.classList.add('ad-form--disabled');
-    for (let i = 0; i < form.children.length; i++) {
-        form.children[i].disabled = true;
-    }
-    mapFilters.classList.add('ad-form--disabled');
-    for (let i = 0; i < mapFilters.children.length; i++) {
-        mapFilters.children[i].disabled = true;
-    }
+const deactivateAdvertForm = () => {
+    advertForm.classList.add('ad-form--disabled');
+    advertFormtInteractiveElements.forEach((element) => element.setAttribute('disabled', 'disabled'));
 };
 
-const getActiveState = () => {
-    form.classList.remove('ad-form--disabled');
-    for (let i = 0; i < form.children.length; i++) {
-        form.children[i].disabled = false;
-    }
-    mapFilters.classList.remove('ad-form--disabled');
-    for (let i = 0; i < mapFilters.children.length; i++) {
-        mapFilters.children[i].disabled = false;
-    }
+const deactivateMapFilterForm = () => {
+    mapFilterForm.classList.add('map__filters--disabled');
+    mapFilterInteractiveElements.forEach((element) => element.setAttribute('disabled', 'disabled'));
 };
 
-export { getUnactiveState, getActiveState };
+const deactivateForms = () => {
+    deactivateAdvertForm();
+    deactivateMapFilterForm();
+};
+
+const activateAdvertForm = () => {
+    advertForm.classList.remove('ad-form--disabled');
+    advertFormtInteractiveElements.forEach((element) => element.removeAttribute('disabled', 'disabled'));
+};
+
+const activateMapFilterForm = () => {
+    mapFilterForm.classList.remove('map__filters--disabled');
+    mapFilterInteractiveElements.forEach((element) => element.removeAttribute('disabled', 'disabled'));
+};
+
+export { deactivateForms, activateAdvertForm, activateMapFilterForm };
+
