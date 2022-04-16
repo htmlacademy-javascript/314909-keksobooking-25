@@ -7,8 +7,15 @@
     ...
 */
 
-import { createPoint } from './setup.js';
+import { arrayOfAdverts, ADVERTS_NUMBER } from './setup.js';
+import { TIME_OUT } from './data.js';
+import { drawMap } from './map-generator.js';
+import { getActiveState, getUnactiveState } from './map-statement.js';
+import './form.js';
+import './map.js';
 
-console.log(
-  createPoint()
-);
+arrayOfAdverts(ADVERTS_NUMBER);
+drawMap();
+
+getUnactiveState();
+setTimeout(getActiveState, TIME_OUT);

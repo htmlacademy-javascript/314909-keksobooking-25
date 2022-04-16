@@ -1,6 +1,8 @@
 /* eslint-disable indent */
 
-const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+
+const ADVERTS_NUM = 10;
+const HOUSES_TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const TIME = ['12:00', '13:00', '14:00'];
 const FEATURES = [
     'wifi',
@@ -23,19 +25,32 @@ const DESCRIPTION = ['Описание помещения',
     'Для одиночек с животными',
 ];
 
-const MAX_ADS = 10;
-const MIN_PRICE = 1;
-const MAX_PRICE = 30000;
-const MIN_ROOMS = 1;
-const MAX_ROOMS = 5;
-const MIN_GUESTS = 1;
-const MAX_GUESTS = 10;
-const MIN_LAT = 35.65000;
-const MAX_LAT = 35.70000;
-const MIN_LNG = 139.70000;
-const MAX_LNG = 139.80000;
-const COORD_PRECISION = 5;
-const PARAMS = [MAX_ADS, MIN_PRICE, MAX_PRICE, MIN_ROOMS, MAX_ROOMS, MIN_GUESTS, MAX_GUESTS, MIN_LAT, MAX_LAT, MIN_LNG, MAX_LNG, COORD_PRECISION,
-];
+const locationRange = {
+    lat: {
+        from: 35.65000,
+        to: 35.70000,
+    },
+    lng: {
+        from: 139.70000,
+        to: 139.80000,
+    },
+    decimals: 5,
+};
 
-export { TYPES, TIME, FEATURES, PHOTOS, DESCRIPTION, PARAMS };
+
+const roomParams = {
+    price: {
+        min: 1,
+        max: 30000
+    },
+    roomNumbers: {
+        min: 1,
+        max: 5,
+    },
+    guests: {
+        min: 1,
+        max: 10,
+    }
+};
+
+export { ADVERTS_NUM, HOUSES_TYPES, TIME, FEATURES, PHOTOS, DESCRIPTION, locationRange, roomParams };

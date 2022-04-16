@@ -1,32 +1,38 @@
 /* eslint-disable indent */
-import { TYPES, TIME, FEATURES, PHOTOS, DESCRIPTION, PARAMS } from './data.js';
-import { getRandomNumber, getRandomFloat, getRandomArrayElement, getRandomSlice } from './api.js';
+
+import { ADVERTS_NUM, TYPES, TIME, FEATURES, PHOTOS, DESCRIPTION, locationRange, roomParams } from './data.js';
+import { getRandomNumber, getRandomFloat, getRandomArrayElement, getRandomSlice } from './utilites.js';
 
 const createPoint = (i) => {
+    const currentIndex = i + 1;
+
     const location = {
-        lat: getRandomFloat(PARAMS[7], PARAMS[8], PARAMS[11]),
-        lng: getRandomFloat(PARAMS[9], PARAMS[10], PARAMS[11]),
+        lat: getRandomFloat(locationRange.lat.from, locationRange.lat.to, locationRange.COORD_PRECISION),
+        lng: getRandomFloat(locationRange.lng.from, locationRange.lng.to, locationRange.COORD_PRECISION),
     };
     const offer = {
         title: 'Заголовок предложения',
         address: `${location.lat}, ${location.lng}`,
-        price: getRandomNumber(PARAMS[1], PARAMS[2]),
+        price: getRandomNumber(roomParams.price.min, roomParams.price.max),
         type: getRandomArrayElement(TYPES),
-        rooms: getRandomNumber(PARAMS[3], PARAMS[4]),
-        guests: getRandomNumber(PARAMS[5], PARAMS[6]),
+        rooms: getRandomNumber(roomParams.roomNumbers.min, roomParams.roomNumbers.max),
+        guests: getRandomNumber(roomParams.guests.min, roomParams.guests.max),
         checkin: getRandomArrayElement(TIME),
         checkout: getRandomArrayElement(TIME),
         features: getRandomSlice(FEATURES),
         description: getRandomArrayElement(DESCRIPTION),
         photos: getRandomSlice(PHOTOS),
     };
+
     return {
         autor: {
-            avatar: `img/avatars/user${0 + i.slice(-2)}.png`
+            avatar: `img/avatars/user${(currentIndex.toString()).padStart(2, '0')}.png`
         },
         location,
         offer
     };
 };
 
-export { createPoint };
+const arrayOfAdverts = () => Array.from({ length: ADVERTS_NUM }).map((item, idx) => createPoint(idx));
+
+export { arrayOfAdverts, ADVERTS_NUM };
