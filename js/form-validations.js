@@ -1,4 +1,6 @@
 /* eslint-disable indent */
+
+
 const adFormTitle = document.querySelector('.ad-form');
 
 const MAX_ROOMS = 100;

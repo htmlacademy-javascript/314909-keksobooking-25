@@ -1,5 +1,6 @@
 /* eslint-disable indent */
-import { arrayOfAdverts } from './setup.js';
+import { arrayOfAdverts } from './advertisment.js';
+import { FEATURES, OFFER_TYPES } from './data.js';
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
@@ -7,12 +8,30 @@ const similarAds = arrayOfAdverts();
 
 const similarListElement = document.querySelector('#map-canvas');
 
-const OFFER_TYPES = {
-    'palace': 'Дворец',
-    'flat': 'Квартира',
-    'house': 'Дом',
-    'bungalow': 'Бунгало',
-    'hotel': 'Отель',
+
+const createFeaturesFragment = (features, featuresAvailable) => {
+    if (!featuresAvailable || featuresAvailable.length <= 0) {
+        return null;
+    }
+
+    const featuresFragment = document.createDocumentFragment();
+
+    features.forEach((featureItem) => {
+        const isNecessary = featuresAvailable.some((featureAvailable) =>
+            featureItem.classList.contains(`popup__feature--${featureAvailable}`)
+        );
+
+        if (isNecessary) {
+            featuresFragment.append(featureItem);
+        }
+    });
+
+    return featuresFragment;
+};
+
+const setHidden = (element) => {
+    element.classList.add('hidden');
+    return element;
 };
 
 const fillELement = (container, dataList, getChild) => {
@@ -22,11 +41,12 @@ const fillELement = (container, dataList, getChild) => {
             container.append(getChild(item));
         });
     } else {
-        container.remove();
+        setHidden(container);
     }
 };
 
-const createAd = ({ author, offer }) => {
+
+const createOffer = ({ author, offer }) => {
     const balloonTemplate = cardTemplate.cloneNode(true);
 
     const contentToSelector = {
@@ -36,7 +56,8 @@ const createAd = ({ author, offer }) => {
         '.popup__type': OFFER_TYPES[offer.type].type,
         '.popup__text--capacity': `${offer.rooms} комнаты для ${offer.guests} гостей`,
         '.popup__text--time': `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`,
-        '.popup__description': offer.description
+        '.popup__features--capacity': createFeaturesFragment(offer.FEATURES, FEATURES[offer.checkin]),
+        '.popup__description': offer.description,
     };
 
     Object.entries(contentToSelector).forEach(([selector, content]) => {
@@ -44,7 +65,7 @@ const createAd = ({ author, offer }) => {
         if (content) {
             element.textContent = content;
         } else {
-            element.remove();
+            setHidden(element);
         }
     });
 
@@ -61,7 +82,7 @@ const createAd = ({ author, offer }) => {
     if (author.avatar) {
         avatarElement.src = author.avatar;
     } else {
-        avatarElement.remove();
+        setHidden(avatarElement);
     }
 
     return balloonTemplate;
@@ -72,7 +93,7 @@ const drawMap = () => {
     const similarListFragment = document.createDocumentFragment();
 
     similarAds.forEach(({ offer, author }) => {
-        similarListFragment.append(createAd({ offer, author }));
+        similarListFragment.append(createOffer({ offer, author }));
     });
 
     similarListElement.append(similarListFragment);
