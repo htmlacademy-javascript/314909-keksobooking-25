@@ -1,27 +1,50 @@
 /* eslint-disable indent */
-// Возвращает случайное целое число из переданного диапазона включительно.
-const getRandomNumber = (start, end) => {
-    // eslint-disable-next-line indent
-    const min = Math.ceil(Math.min(Math.abs(start), Math.abs(end)));
-    const max = Math.floor(Math.max(Math.abs(start), Math.abs(end)));
-    const result = Math.random() * (max - min + 1) + min;
+import { onResetButtonClick } from './form-validations.js';
 
-    return Math.floor(result);
+const ERROR_SHOW_TIME = 5000;
+const DATABASE_URL = 'https://25.javascript.pages.academy/keksobooking';
+const DATABSE_OFFERS_URL = `${DATABASE_URL}/data`;
+
+const showError = (error) => {
+    const errorContainer = document.createElement('div');
+    errorContainer.classList.add('error-container');
+    errorContainer.textContent = error;
+
+    document.body.append(errorContainer);
+
+    setTimeout(() => {
+        errorContainer.remove();
+    }, ERROR_SHOW_TIME);
 };
 
-// Возвращает случайное число с плавающей точкой из переданного диапазона включительно.
-const getRandomFloat = (start, end, digits = 1) => {
-    const lower = Math.min(Math.abs(start), Math.abs(end));
-    const upper = Math.max(Math.abs(start), Math.abs(end));
-    const result = Math.random() * (upper - lower) + lower;
-    return +result.toFixed(digits);
+const getData = (onSuccess, onFail) => {
+    fetch(DATABSE_OFFERS_URL)
+        .then((response) => response.json())
+        .then((offers) => {
+            onSuccess(offers);
+        })
+        .catch(onFail);
 };
 
-// Вовзращает случайный элемент массива
-const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
-const getRandomSlice = (array) => {
-    const count = getRandomNumber(1, array.length);
-    return array.slice(0, count + 1);
+const sendData = (onSuccess, onFail, body) => {
+    fetch(
+        DATABASE_URL,
+        {
+            method: 'POST',
+            body,
+        },
+    )
+        .then((response) => {
+            if (response.ok) {
+                onSuccess();
+                onResetButtonClick();
+            } else {
+                onFail('Не удалось отправить форму. Попробуйте ещё раз');
+            }
+        })
+        .catch(() => {
+            onFail('Не удалось отправить форму. Попробуйте ещё раз');
+        });
 };
 
-export { getRandomNumber, getRandomFloat, getRandomArrayElement, getRandomSlice };
+export { getData, sendData, showError };
