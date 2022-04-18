@@ -30,4 +30,3 @@ const activateMapFilterForm = () => {
 };
 
 export { deactivateForms, activateAdvertForm, activateMapFilterForm };
-
