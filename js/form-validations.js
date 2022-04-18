@@ -1,4 +1,5 @@
 /* eslint-disable indent */
+/* eslint-disable indent */
 import { sendData } from './api.js';
 
 const MAX_PRICE_HOUSING = 100000;

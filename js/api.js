@@ -51,4 +51,3 @@ const sendData = (offer, onSuccess) =>
         });
 
 export { getData, sendData, showError };
-
