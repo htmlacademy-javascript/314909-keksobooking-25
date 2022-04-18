@@ -1,6 +1,5 @@
 /* eslint-disable indent */
 import { drawMap } from './draw-map.js';
-import { mapFiltersForm, setMapFilters, filterOffers } from './filters.js';
 import { adForm } from './form-validation.js';
 import { getData, showError } from './api.js';
 import { debounce } from './debounce.js';
@@ -12,30 +11,23 @@ const BASIC_LNG = 139.69170;
 const BASIC_MAP_SCALING = 13;
 const DECIMAL_PLACE = 5;
 const OFFERS_COUNT = 10;
-const map = L.map('map-canvas');
-const adress = document.querySelector('#address');
-
-const toggleClass = (element, className, value) => {
-    element.classList.toggle(className, value);
-};
-
-const toggleFormElements = (formElements, value) => {
-    formElements.forEach((element) => { element.disabled = value; });
-};
-
-const toggleAdForm = (value) => {
-    toggleClass(adForm, 'ad-form--disabled', value);
-    toggleFormElements(adForm.querySelectorAll('fieldset'), value);
-};
-
-const toggleFiltersForm = (value) => {
-    toggleClass(mapFiltersForm, 'map__filters--disabled', value);
-    toggleFormElements(mapFiltersForm.querySelectorAll('select, .map__features'), value);
-};
-
-const toggleForms = (value) => {
-    toggleAdForm(value);
-    toggleFiltersForm(value);
+const PricesByValues = {
+    'low': {
+        min: 0,
+        max: 10000
+    },
+    'high': {
+        min: 50000,
+        max: 100000
+    },
+    'middle': {
+        min: 10000,
+        max: 50000
+    },
+    'any': {
+        min: 0,
+        max: 100000
+    },
 };
 
 const mainPinMarker = L.icon({
@@ -60,8 +52,76 @@ const marker = L.marker(
         icon: mainPinMarker,
     },
 );
+const map = L.map('map-canvas');
+const adress = document.querySelector('#address');
+const mapFiltersForm = document.querySelector('.map__filters');
+const livingTypeInput = document.querySelector('#housing-type');
+const priceInput = document.querySelector('#housing-price');
+const roomsInput = document.querySelector('#housing-rooms');
+const guestsInput = document.querySelector('#housing-guests');
 
 const markerGroup = L.layerGroup().addTo(map);
+
+const setMapFilters = (cb) => {
+    mapFiltersForm.addEventListener('change', () => {
+        markerGroup.clearLayers();
+        cb();
+    });
+};
+
+const filterByLivingType = ({ offer }) => {
+    if (livingTypeInput.value === 'any') {
+        return offer;
+    }
+    if (offer.type === livingTypeInput.value) {
+        return offer;
+    }
+};
+
+const filterByPrice = ({ offer }) => offer.price >= PricesByValues[priceInput.value].min && offer.price <= PricesByValues[priceInput.value].max;
+
+const filterByRooms = ({ offer }) => (roomsInput.value === 'any') ? offer : offer.rooms === Number(roomsInput.value);
+
+const filterByGuests = ({ offer }) => (guestsInput.value === 'any') ? offer : offer.guests === Number(guestsInput.value);
+
+const filterByFeatures = ({ offer }) => {
+    const filtersFeatures = [];
+    const checkedFilters = document.querySelector('.map__features').querySelectorAll('input:checked');
+    checkedFilters.forEach((el) => filtersFeatures.push(el.value));
+    if (offer.features) {
+        return filtersFeatures.every((feature) => offer.features.includes(feature));
+    }
+    return false;
+};
+
+const filterOffers = (offers) => offers.filter((offer) => (filterByLivingType(offer) &&
+    filterByPrice(offer) &&
+    filterByRooms(offer) &&
+    filterByGuests(offer) &&
+    filterByFeatures(offer)));
+
+const toggleClass = (element, className, value) => {
+    element.classList.toggle(className, value);
+};
+
+const toggleFormElements = (formElements, value) => {
+    formElements.forEach((element) => { element.disabled = value; });
+};
+
+const toggleAdForm = (value) => {
+    toggleClass(adForm, 'ad-form--disabled', value);
+    toggleFormElements(adForm.querySelectorAll('fieldset'), value);
+};
+
+const toggleFiltersForm = (value) => {
+    toggleClass(mapFiltersForm, 'map__filters--disabled', value);
+    toggleFormElements(mapFiltersForm.querySelectorAll('select, .map__features'), value);
+};
+
+const toggleForms = (value) => {
+    toggleAdForm(value);
+    toggleFiltersForm(value);
+};
 
 const createMarker = (point) => {
     const { location } = point;
