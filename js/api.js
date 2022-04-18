@@ -1,5 +1,6 @@
 /* eslint-disable indent */
 import { onResetButtonClick } from './form-validations.js';
+import { createPopup } from './popup.js';
 
 const ERROR_SHOW_TIME = 5000;
 const DATABASE_URL = 'https://25.javascript.pages.academy/keksobooking';
