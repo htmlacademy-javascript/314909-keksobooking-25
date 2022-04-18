@@ -5,7 +5,7 @@ import { createSlider } from './slider.js';
 import { createCard } from './cards-generator.js';
 import { activateAdvertForm, activateMapFilterForm } from './map-statement.js';
 import { addPhotoInputsListeners, clearImageBlocks } from './image-prepare.js';
-import { renderGetErrorMessage, renderPostErrorMessage } from './error.js';
+import { renderGetErrorMessage, renderPostErrorMessage } from './error-message';
 import { filterData, setDataRanking } from './card-filter';
 import { renderOkMessage } from './form.js';
 import { locationRange } from './data.js';
