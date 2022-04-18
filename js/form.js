@@ -12,8 +12,6 @@ const submitButton = document.querySelector('.ad-form__submit');
 const createOkTemplate = () => `<div class="success">
                                       <p class="success__message">Ваше объявление<br>успешно размещено!</p>
                                     </div>`;
-
-
 const onOkClick = (evt) => {
     evt.preventDefault();
     if (evt.target.closest('.success')) {
@@ -56,4 +54,3 @@ const renderOkMessage = () => {
 };
 
 export { renderOkMessage };
-
