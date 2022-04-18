@@ -25,6 +25,14 @@ const DESCRIPTION = ['Описание помещения',
     'Для одиночек с животными',
 ];
 
+const OFFER_TYPES = {
+    'palace': 'Дворец',
+    'flat': 'Квартира',
+    'house': 'Дом',
+    'bungalow': 'Бунгало',
+    'hotel': 'Отель',
+};
+
 const locationRange = {
     lat: {
         from: 35.65000,
@@ -53,4 +61,4 @@ const roomParams = {
     }
 };
 
-export { ADVERTS_NUM, HOUSES_TYPES, TIME, FEATURES, PHOTOS, DESCRIPTION, locationRange, roomParams };
+export { ADVERTS_NUM, HOUSES_TYPES, TIME, FEATURES, PHOTOS, DESCRIPTION, OFFER_TYPES, locationRange, roomParams };
