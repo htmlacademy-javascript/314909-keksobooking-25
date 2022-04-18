@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import { onResetButtonClick } from './form-validations.js';
+import { setAdFormActions } from './form-validations.js';
 import { createPopup } from './popup.js';
 import { APROVE_MESSAGE, ERROR_MESSAGE, BUTTON_TEXT, DATABASE_URL, ERROR_SHOW_TIME } from './data.js';
 
@@ -44,7 +44,7 @@ const sendData = (offer, onSuccess) =>
             if (response.ok) {
                 createPopup(true, APROVE_MESSAGE);
                 onSuccess();
-                onResetButtonClick();
+                setAdFormActions();
             } else {
                 createPopup(false, ERROR_MESSAGE, BUTTON_TEXT);
             }

@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import { isEcsEvt, renderElement } from './utils.js';
+import { isEscKey, renderElement } from './utilites.js';
 
 const GET_ERROR_TEXT = 'Ошибка при загрузке данных';
 const POST_ERROR_TEXT = 'Ошибка размещения объявления';
@@ -20,7 +20,7 @@ const onErrorClick = (evt) => {
 const onErrorKeydown = (evt) => {
     evt.preventDefault();
     const errorElement = document.querySelector('.error');
-    if (isEcsEvt(evt) && errorElement) {
+    if (isEscKey(evt) && errorElement) {
         errorElement.remove();
         removeListeners();
     }
