@@ -55,3 +55,4 @@ const filterData = ({ offer }) =>
     filterByFeatures(offer);
 
 export { setDataRanking, filterData };
+

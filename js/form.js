@@ -1,5 +1,4 @@
 /* eslint-disable indent */
-/* eslint-disable indent */
 import { resetMap, setStartAddress } from './map.js';
 import { clearImageBlocks } from './image-prepare.js';
 import { isEscKey, renderElement } from './utilites.js';
@@ -12,6 +11,8 @@ const submitButton = document.querySelector('.ad-form__submit');
 const createOkTemplate = () => `<div class="success">
                                       <p class="success__message">Ваше объявление<br>успешно размещено!</p>
                                     </div>`;
+
+
 const onOkClick = (evt) => {
     evt.preventDefault();
     if (evt.target.closest('.success')) {

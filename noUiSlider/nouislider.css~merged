@@ -3,7 +3,7 @@
  * These styles are required for noUiSlider to function.
  * You don't need to change these rules to apply your design.
  */
-
+<<<<<<< HEAD
 .noUi-target,
 .noUi-target * {
   -webkit-touch-callout: none;
@@ -658,3 +658,4 @@
    top: auto;
    right: 28px;
  }
+>>>>>>> d5b82e8a07c682046cf29390c6bc91c224a94f91
