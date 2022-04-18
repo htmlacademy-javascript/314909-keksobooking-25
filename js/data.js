@@ -1,7 +1,12 @@
 /* eslint-disable indent */
-
-
 const ADVERTS_NUM = 10;
+const APROVE_MESSAGE = 'Ваше объявление успешно размещено!';
+const ERROR_MESSAGE = 'Ошибка размещения объявления';
+const BUTTON_TEXT = 'Попробовать снова';
+const DATABASE_URL = 'https://25.javascript.pages.academy/keksobooking';
+const RERENDER_DELAY = 500;
+const ERROR_SHOW_TIME = 5000;
+
 const HOUSES_TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const TIME = ['12:00', '13:00', '14:00'];
 const FEATURES = [
@@ -61,4 +66,18 @@ const roomParams = {
     }
 };
 
-export { ADVERTS_NUM, HOUSES_TYPES, TIME, FEATURES, PHOTOS, DESCRIPTION, OFFER_TYPES, locationRange, roomParams };
+export {
+    ADVERTS_NUM,
+    HOUSES_TYPES, TIME,
+    FEATURES, PHOTOS,
+    DESCRIPTION,
+    OFFER_TYPES,
+    APROVE_MESSAGE,
+    ERROR_MESSAGE,
+    BUTTON_TEXT,
+    DATABASE_URL,
+    RERENDER_DELAY,
+    ERROR_SHOW_TIME,
+    locationRange,
+    roomParams
+};
