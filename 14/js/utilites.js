@@ -35,7 +35,11 @@ const toggleForm = (form, activClassName, isActive) => {
         fieldset.disabled = !isActive;
     });
 };
-const isEscKey = (evt) => (evt.key === 'Escape');
+const isEscKey = (evt) => (evt.key === 'Escape' || evt.key === 'Esc');
+
+const renderElement = (container, element) => {
+    container.insertAdjacentHTML('beforeend', element);
+};
 
 const debounce = (callback, timeoutDelay) => {
     let timeoutId;
@@ -70,6 +74,7 @@ export {
     getNumberWithLeadZero,
     toggleForm,
     isEscKey,
+    renderElement,
     getPriceLevel,
     debounce,
     checkEquality

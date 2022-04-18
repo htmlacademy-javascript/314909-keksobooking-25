@@ -6,7 +6,7 @@ import { createCard } from './cards-generator.js';
 import { activateAdvertForm, activateMapFilterForm } from './map-statement.js';
 import { addPhotoInputsListeners, clearImageBlocks } from './image-prepare.js';
 import { renderGetErrorMessage, renderPostErrorMessage } from './error-message.js';
-import { filterData, setDataRanking } from './card-filter';
+import { filterData, setDataRanking } from './card-filter.js';
 import { renderOkMessage } from './form.js';
 import { locationRange } from './data.js';
 import { getRandomFloat } from './utilites.js';

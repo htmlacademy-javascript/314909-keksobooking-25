@@ -1,7 +1,7 @@
 /* eslint-disable indent */
 import { resetMap, setStartAddress } from './map.js';
 import { clearImageBlocks } from './image-prepare.js';
-import { isEcsEvt, renderElement } from './utilites.js';
+import { isEscKey, renderElement } from './utilites.js';
 
 const addForm = document.querySelector('.ad-form');
 const filterForm = document.querySelector('.map__filters');
@@ -24,7 +24,7 @@ const onOkClick = (evt) => {
 const onOkKeydown = (evt) => {
     evt.preventDefault();
     const successElement = document.querySelector('.success');
-    if (isEcsEvt(evt) && successElement) {
+    if (isEscKey(evt) && successElement) {
         successElement.remove();
         removeListeners();
     }

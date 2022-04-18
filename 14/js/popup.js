@@ -1,4 +1,4 @@
-import { isEscKey } from './utilites';
+import { isEscKey } from './utilites.js';
 
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
