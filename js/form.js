@@ -63,9 +63,9 @@ const onAvatarImageChange = (evt) => {
 
 const onPhotoImagesChange = (evt) => {
     const files = evt.target.files;
-    for (let i = 0; i <= files.length; i++) {
-        createImage(files[i]);
-    }
+    files.forEach((item) => {
+        createImage(item);
+    });
 };
 
 const onResetButtonClick = () => {

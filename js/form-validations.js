@@ -7,6 +7,16 @@ const MAX_ROOMS = 100;
 const MIN_SYMBOLS = 30;
 const MAX_SYMBOLS = 100;
 
+const typeField = adFormTitle.querySelector('[name="type"]');
+const priceField = adFormTitle.querySelector('#price');
+const minPrice = {
+    bungalow: 0,
+    flat: 1000,
+    hotel: 3000,
+    house: 5000,
+    palace: 10000,
+};
+
 const pristine = new Pristine(adFormTitle, {
     classTo: 'ad-form__element',
     errorTextParent: 'ad-form__element',
@@ -68,16 +78,6 @@ adFormTitle.addEventListener('submit', (evt) => {
         evt.preventDefault();
     }
 });
-
-const typeField = adFormTitle.querySelector('[name="type"]');
-const priceField = adFormTitle.querySelector('#price');
-const minPrice = {
-    bungalow: 0,
-    flat: 1000,
-    hotel: 3000,
-    house: 5000,
-    palace: 10000,
-};
 
 const validatePrice = () =>
     priceField.value ? !(priceField.value < minPrice[typeField.value]) : true;
