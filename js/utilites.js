@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-const DEFAULT_PRECISION = 2;
+const DEFAULT_PRECISION = 5;
 
 // Возвращает случайное целое число из переданного диапазона включительно.
 const getRandomNumber = (start, end) => {
@@ -26,5 +26,57 @@ const getRandomSlice = (array) => {
     return array.slice(0, count + 1);
 };
 
+const getNumberWithLeadZero = (i) => (i < 10) ? `0${i}` : i;
 
-export { getRandomNumber, getRandomFloat, getRandomArrayElement, getRandomSlice };
+const toggleForm = (form, activClassName, isActive) => {
+    const fieldsetList = form.querySelectorAll('fieldset');
+    form.classList.toggle(activClassName);
+    fieldsetList.forEach((fieldset) => {
+        fieldset.disabled = !isActive;
+    });
+};
+const isEscKey = (evt) => (evt.key === 'Escape' || evt.key === 'Esc');
+
+const renderElement = (container, element) => {
+    container.insertAdjacentHTML('beforeend', element);
+};
+
+const debounce = (callback, timeoutDelay) => {
+    let timeoutId;
+    return (...rest) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+    };
+};
+
+const getPriceLevel = (price) => {
+    if (price <= 10000) {
+        return 'low';
+    } else if (price >= 50000) {
+        return 'high';
+    }
+    return 'middle';
+};
+
+const checkEquality = ([valueA, valueB]) => {
+    if (valueB === 'any') {
+        return true;
+    }
+    const ethalon = typeof valueA === 'number' ? parseInt(valueB, 10) : valueB;
+    return valueA === ethalon;
+};
+
+export {
+    getRandomNumber,
+    getRandomFloat,
+    getRandomArrayElement,
+    getRandomSlice,
+    getNumberWithLeadZero,
+    toggleForm,
+    isEscKey,
+    renderElement,
+    getPriceLevel,
+    debounce,
+    checkEquality
+};
+
