@@ -52,7 +52,7 @@ const setHidden = (element) => {
     return element;
 };
 
-const createRandomAdvertisementCard = (advertisement) => {
+const createCard = (advertisement) => {
     const cardElement = cardTemplate.cloneNode(true);
 
     //SET AVATAR
@@ -119,4 +119,4 @@ const createRandomAdvertisementCard = (advertisement) => {
 
 };
 
-export { createRandomAdvertisementCard };
+export { createCard };

@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-const DEFAULT_PRECISION = 2;
+const DEFAULT_PRECISION = 5;
 
 // Возвращает случайное целое число из переданного диапазона включительно.
 const getRandomNumber = (start, end) => {
