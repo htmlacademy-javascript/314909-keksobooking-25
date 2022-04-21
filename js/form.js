@@ -1,9 +1,8 @@
 /* eslint-disable indent */
-import { resetMap, resetMarker, renderMarkers } from './map.js';
+import { addForm, resetMap, resetMarker, renderMarkers } from './map.js';
 import { mapFiltersForm } from './card-filter.js';
 import { getOffer } from './api.js';
 import { createSlider } from './slider.js';
-import { typePrice } from './data.js';
 
 const DEFAULT_AVATAR = 'img/muffin-grey.svg';
 const price = document.querySelector('#price');
@@ -13,14 +12,19 @@ const type = document.querySelector('#type');
 const timeIn = document.querySelector('#timein');
 const timeOut = document.querySelector('#timeout');
 const avatar = document.querySelector('#avatar');
-const adForm = document.querySelector('.ad-form');
 const preview = document.querySelector('.ad-form-header__preview');
 const avatarImg = preview.querySelector('img');
 const photos = document.querySelector('#images');
 const photosContainer = document.querySelector('.ad-form__photo-container');
 const resetBtn = document.querySelector('.ad-form__reset');
 const submitButton = document.querySelector('.ad-form__submit');
-
+const TypePrice = {
+	flat: 1000,
+	bungalow: 0,
+	house: 5000,
+	palace: 10000,
+	hotel: 3000
+};
 guests.value = rooms.value;
 
 const createImage = (files) => {
@@ -64,7 +68,7 @@ const onPhotoImagesChange = (evt) => {
 };
 
 const onResetButtonClick = () => {
-	adForm.reset();
+	addForm.reset();
 	avatar.files.value = DEFAULT_AVATAR;
 	avatarImg.src = DEFAULT_AVATAR;
 	photos.files.value = '';
@@ -90,8 +94,8 @@ const unblockSubmitButton = () => {
 resetBtn.addEventListener('click', onResetButtonClick);
 
 type.addEventListener('change', () => {
-	price.placeholder = typePrice[type.value];
-	price.min = typePrice[type.value];
+	price.placeholder = TypePrice[type.value];
+	price.min = TypePrice[type.value];
 });
 
 timeIn.addEventListener('change', () => {
@@ -105,4 +109,5 @@ timeOut.addEventListener('change', () => {
 avatar.addEventListener('change', onAvatarImageChange, false);
 photos.addEventListener('change', onPhotoImagesChange, false);
 
-export { price, onResetButtonClick, blockSubmitButton, unblockSubmitButton };
+export { price, TypePrice, onResetButtonClick, blockSubmitButton, unblockSubmitButton };
+

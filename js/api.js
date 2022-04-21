@@ -1,12 +1,9 @@
 /* eslint-disable indent */
-import { setAdFormActions } from './form-validations.js';
-import { showSuccessPopup } from './popup.js';
+import { onResetButtonClick } from './form.js';
 
-const APROVE_MESSAGE = 'Ваше объявление успешно размещено!';
-const ERROR_MESSAGE = 'Ошибка размещения объявления';
-const BUTTON_TEXT = 'Попробовать снова';
-const DATABASE_URL = 'https://25.javascript.pages.academy/keksobooking';
 const ERROR_SHOW_TIME = 5000;
+const DATABASE_URL = 'https://25.javascript.pages.academy/keksobooking';
+const DATABSE_OFFERS_URL = `${DATABASE_URL}/data`;
 
 const showError = (error) => {
 	const errorContainer = document.createElement('div');
@@ -20,39 +17,34 @@ const showError = (error) => {
 	}, ERROR_SHOW_TIME);
 };
 
-const getOffer = (onSuccess) => {
-	fetch(`${DATABASE_URL}/data`, {
-		method: 'GET',
-		credentials: 'same-origin',
-	},
-	)
-		.then((response) => {
-			if (response.ok) {
-				return response.json();
-			}
-			showSuccessPopup(false, ERROR_MESSAGE, 'Добавить объявление');
-			return [];
+const getOffer = (onSuccess, onFail) => {
+	fetch(DATABSE_OFFERS_URL)
+		.then((response) => response.json())
+		.then((offers) => {
+			onSuccess(offers);
 		})
-		.then(onSuccess);
+		.catch(onFail);
 };
 
-const sendOffer = (offer, onSuccess) =>
+const sendOffer = (onSuccess, onFail, body) => {
 	fetch(
 		DATABASE_URL,
 		{
 			method: 'POST',
-			credentials: 'same-origin',
-			body: offer,
+			body,
 		},
 	)
 		.then((response) => {
 			if (response.ok) {
-				showSuccessPopup(true, APROVE_MESSAGE);
 				onSuccess();
-				setAdFormActions();
+				onResetButtonClick();
 			} else {
-				showSuccessPopup(false, ERROR_MESSAGE, BUTTON_TEXT);
+				onFail('Не удалось отправить форму. Попробуйте ещё раз');
 			}
+		})
+		.catch(() => {
+			onFail('Не удалось отправить форму. Попробуйте ещё раз');
 		});
+};
 
 export { getOffer, sendOffer, showError };

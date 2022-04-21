@@ -3,11 +3,10 @@
 
 import './form.js';
 import './slider.js';
-import { deactivateForms } from './map-statement.js';
 import { toggleForms, createMap } from './map.js';
-import { setAdFormActions } from './form-validations.js';
-import { showSuccessPopup } from './popup.js';
+import { setUserFromSubmit } from './form-validations.js';
+import { showSuccessPopup, showErrorPopup } from './popup.js';
 
 toggleForms(true);
 createMap();
-deactivateForms(showSuccessPopup, setAdFormActions);
+setUserFromSubmit(showSuccessPopup, showErrorPopup);
