@@ -54,39 +54,39 @@ const fillOffer = ({ offer, author }) => {
   if (offer.features) {
     element.querySelectorAll('.popup__feature').forEach((featureListItem) => {
       const isNecessary = offer.features.some(
-	(feature) => featureListItem.classList.contains(`popup__feature--${feature}`)
+        (feature) => featureListItem.classList.contains(`popup__feature--${feature}`)
       );
-      if (!isNecessary) {
-	featureListItem.remove();
+    if (!isNecessary) {
+        featureListItem.remove();
       }
     });
-    } else {
-      hideElement(element.querySelector('.popup__features'));
-    }
+  } else {
+    hideElement(element.querySelector('.popup__features'));
+  }
 
-    if (offer.description) {
-      addValue(element.querySelector('.popup__description'), offer.description);
-    } else {
-      hideElement(element.querySelector('.popup__description'));
-    }
+  if (offer.description) {
+    addValue(element.querySelector('.popup__description'), offer.description);
+  } else {
+    hideElement(element.querySelector('.popup__description'));
+  }
 
-    if (offer.photos) {
-      element.querySelector('.popup__photos').innerHTML = '';
-      offer.photos.forEach((photo) => {
-	const item = PHOTO_TEMPLATE.cloneNode(true);
-	item.src = photo;
-	element.querySelector('.popup__photos').append(item);
-      });
-      } else {
-	hideElement(element.querySelector('.popup__photos'));
-      }
+  if (offer.photos) {
+    element.querySelector('.popup__photos').innerHTML = '';
+    offer.photos.forEach((photo) => {
+      const item = PHOTO_TEMPLATE.cloneNode(true);
+      item.src = photo;
+      element.querySelector('.popup__photos').append(item);
+    });
+  } else {
+	  hideElement(element.querySelector('.popup__photos'));
+  }
 
-      if (author.avatar) {
-	element.querySelector('.popup__avatar').src = author.avatar;
-      } else {
-	hideElement(element.querySelector('.popup__avatar'));
-      }
-      return element;
+  if (author.avatar) {
+    element.querySelector('.popup__avatar').src = author.avatar;
+  } else {
+    hideElement(element.querySelector('.popup__avatar'));
+  }
+  return element;
 };
 
 export { fillOffer };
