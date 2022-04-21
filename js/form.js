@@ -2,7 +2,7 @@
 import { addForm, resetMap, resetMarker, renderMarkers } from './map.js';
 import { mapFiltersForm } from './feature-filter.js';
 import { getOffer } from './api.js';
-import { createSlider } from './slider.js';
+import { slider } from './slider.js';
 
 const DEFAULT_AVATAR = 'img/muffin-grey.svg';
 const price = document.querySelector('#price');
@@ -77,7 +77,7 @@ const onResetButtonClick = () => {
 	resetMarker();
 	mapFiltersForm.reset();
 	getOffer((offers) => renderMarkers(offers));
-	createSlider.noUiSlider.reset();
+	slider.noUiSlider.reset();
 	resetMap();
 };
 
