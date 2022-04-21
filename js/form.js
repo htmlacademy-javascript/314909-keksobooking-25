@@ -1,57 +1,112 @@
-/* eslint-disable indent */
-import { resetMap, setStartAddress } from './map.js';
-import { clearImageBlocks } from './image-prepare.js';
-import { isEscKey, renderElement } from './utilites.js';
+import { addForm, resetMap, resetMarker, renderMarkers } from './map.js';
+import { mapFiltersForm } from './feature-filter.js';
+import { getOffer } from './api.js';
+import { slider } from './slider.js';
 
-const addForm = document.querySelector('.ad-form');
-const filterForm = document.querySelector('.map__filters');
-const sliderElement = document.querySelector('.ad-form__slider');
+const DEFAULT_AVATAR = 'img/muffin-grey.svg';
+const price = document.querySelector('#price');
+const rooms = document.querySelector('#room_number');
+const guests = document.querySelector('#capacity');
+const type = document.querySelector('#type');
+const timeIn = document.querySelector('#timein');
+const timeOut = document.querySelector('#timeout');
+const avatar = document.querySelector('#avatar');
+const preview = document.querySelector('.ad-form-header__preview');
+const avatarImg = preview.querySelector('img');
+const photos = document.querySelector('#images');
+const photosContainer = document.querySelector('.ad-form__photo-container');
+const resetBtn = document.querySelector('.ad-form__reset');
 const submitButton = document.querySelector('.ad-form__submit');
+const TypePrice = {
+	flat: 1000,
+	bungalow: 0,
+	house: 5000,
+	palace: 10000,
+	hotel: 3000
+};
+guests.value = rooms.value;
 
-const createOkTemplate = () => `<div class="success">
-                                      <p class="success__message">Ваше объявление<br>успешно размещено!</p>
-                                    </div>`;
-
-
-const onOkClick = (evt) => {
-    evt.preventDefault();
-    if (evt.target.closest('.success')) {
-        evt.target.closest('.success').remove();
-        removeListeners();
-    }
+const createImage = (files) => {
+	const reader = new FileReader();
+	const div = document.createElement('div');
+	const photo = document.createElement('img');
+	div.classList.add('ad-form__photo');
+	div.classList.add('photo');
+	reader.addEventListener('load', () => {
+		photo.src = reader.result;
+		div.append(photo);
+		photosContainer.append(div);
+	});
+	if (files) {
+		return reader.readAsDataURL(files);
+	}
+	photo.src = DEFAULT_AVATAR;
 };
 
-const onOkKeydown = (evt) => {
-    evt.preventDefault();
-    const successElement = document.querySelector('.success');
-    if (isEscKey(evt) && successElement) {
-        successElement.remove();
-        removeListeners();
-    }
+const createAvatar = (file) => {
+	const reader = new FileReader();
+	reader.addEventListener('load', () => {
+		avatarImg.src = reader.result;
+	});
+	if (file) {
+		reader.readAsDataURL(file);
+	}
+	avatarImg.src = DEFAULT_AVATAR;
 };
 
-const addListeners = () => {
-    document.addEventListener('click', onOkClick);
-    document.addEventListener('keydown', onOkKeydown);
+const onAvatarImageChange = (evt) => {
+	const file = evt.target.files[0];
+	createAvatar(file);
 };
 
-function removeListeners() {
-    document.removeEventListener('click', onOkClick);
-    document.removeEventListener('keydown', onOkKeydown);
-}
-
-const renderOkMessage = () => {
-    renderElement(document.body, createOkTemplate);
-    addListeners();
-    resetMap();
-    clearImageBlocks();
-    submitButton.disabled = false;
-    setTimeout(() => {
-        addForm.reset();
-        filterForm.reset();
-        sliderElement.noUiSlider.reset();
-        setStartAddress();
-    });
+const onPhotoImagesChange = (evt) => {
+	const files = evt.target.files;
+	for (let i = 0; i <= files.length; i++) {
+		createImage(files[i]);
+	}
 };
 
-export { renderOkMessage };
+const onResetButtonClick = () => {
+	addForm.reset();
+	avatar.files.value = DEFAULT_AVATAR;
+	avatarImg.src = DEFAULT_AVATAR;
+	photos.files.value = '';
+	const userPhotos = document.querySelectorAll('.photo');
+	userPhotos.forEach((element) => element.remove());
+	resetMarker();
+	mapFiltersForm.reset();
+	getOffer((offers) => renderMarkers(offers));
+	slider.noUiSlider.reset();
+	resetMap();
+};
+
+const blockSubmitButton = () => {
+	submitButton.disabled = true;
+	submitButton.textContent = 'Отправляю...';
+};
+
+const unblockSubmitButton = () => {
+	submitButton.disabled = false;
+	submitButton.textContent = 'Опубликовать';
+};
+
+resetBtn.addEventListener('click', onResetButtonClick);
+
+type.addEventListener('change', () => {
+	price.placeholder = TypePrice[type.value];
+	price.min = TypePrice[type.value];
+});
+
+timeIn.addEventListener('change', () => {
+	timeOut.value = timeIn.value;
+});
+
+timeOut.addEventListener('change', () => {
+	timeIn.value = timeOut.value;
+});
+
+avatar.addEventListener('change', onAvatarImageChange, false);
+photos.addEventListener('change', onPhotoImagesChange, false);
+
+export { price, TypePrice, onResetButtonClick, blockSubmitButton, unblockSubmitButton };
+

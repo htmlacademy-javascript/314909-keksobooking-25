@@ -1,37 +1,34 @@
-import { isEscKey } from './utilites.js';
+let message;
 
-const errorTemplate = document.querySelector('#error').content.querySelector('.error');
-const successTemplate = document.querySelector('#success').content.querySelector('.success');
+const isPressedEscapeKey = (evt) => evt.key === 'Escape';
 
-const createPopup = (success, message, buttonText = '') => {
-  const popupTemplate = (success ? successTemplate : errorTemplate).cloneNode(true);
-
-  if (success) {
-    const messageElement = popupTemplate.querySelector('.success__message');
-    messageElement.textContent = message;
-  } else {
-    const messageElement = popupTemplate.querySelector('.error__message');
-    const buttonElement = popupTemplate.querySelector('.error__button');
-    messageElement.textContent = message;
-    buttonElement.textContent = buttonText;
-  }
-
-  document.body.append(popupTemplate);
-
-  const closePopup = () => {
-    popupTemplate.remove();
-    document.removeEventListener('keydown', onPopupEscKeydown);
-  };
-
-  function onPopupEscKeydown(evt) {
-    if (isEscKey(evt)) {
-      evt.preventDefault();
-      closePopup();
-    }
-  }
-
-  popupTemplate.addEventListener('click', () => closePopup());
-  document.addEventListener('keydown', onPopupEscKeydown);
+const onDocumentEscKeydown = (evt) => {
+	if (isPressedEscapeKey(evt)) {
+		evt.preventDefault();
+		onDocumentClick();
+	}
 };
 
-export { createPopup };
+function onDocumentClick() {
+	document.querySelector('.popup').remove();
+	document.removeEventListener('keydown', onDocumentEscKeydown);
+	document.removeEventListener('click', onDocumentClick);
+}
+
+const showPopup = () => {
+	document.body.append(message);
+	document.addEventListener('click', onDocumentClick);
+	document.addEventListener('keydown', onDocumentEscKeydown);
+};
+
+const showSuccessPopup = () => {
+	message = document.querySelector('#success').content.cloneNode(true);
+	showPopup();
+};
+
+const showErrorPopup = () => {
+	message = document.querySelector('#error').content.cloneNode(true);
+	showPopup();
+};
+
+export { showSuccessPopup, showErrorPopup };

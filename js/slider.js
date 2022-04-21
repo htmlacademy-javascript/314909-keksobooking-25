@@ -1,29 +1,24 @@
-/* eslint-disable indent */
-const sliderElement = document.querySelector('.ad-form__slider');
-const valueElement = document.querySelector('#price');
+import { price } from './form.js';
 
-const createSlider = () => {
-    noUiSlider.create(sliderElement, {
-        range: {
-            min: 0,
-            max: 100000,
-        },
-        start: 5000,
-        step: 1000,
-        connect: 'lower',
-        format: {
-            to: function (value) {
-                return value;
-            },
-            from: function (value) {
-                return parseFloat(value);
-            },
-        }
-    });
+const slider = document.querySelector('#slider');
 
-    sliderElement.noUiSlider.on('update', () => {
-        valueElement.value = sliderElement.noUiSlider.get();
-    });
-};
+noUiSlider.create(slider, {
+	start: [5000],
+	connect: [true, false],
+	tooltips: true,
+	step: 100,
+	range: {
+		'min': [0],
+		'10%': [500, 100],
+		'50%': [4000, 500],
+		'70%': [10000, 500],
+		'max': [100000]
+	}
+});
 
-export { createSlider };
+slider.noUiSlider.on('change', (values, handle) => {
+	price.value = Math.floor(values[handle]);
+});
+
+export { slider };
+

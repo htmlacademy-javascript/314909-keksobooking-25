@@ -1,133 +1,129 @@
-/* eslint-disable indent */
-import { getData } from './api.js';
-import { setAdFormActions } from './form-validations.js';
-import { createSlider } from './slider.js';
-import { createCard } from './cards-generator.js';
-import { activateAdvertForm, activateMapFilterForm } from './map-statement.js';
-import { addPhotoInputsListeners, clearImageBlocks } from './image-prepare.js';
-import { renderGetErrorMessage, renderPostErrorMessage } from './error-message.js';
-import { filterData, setDataRanking } from './card-filter.js';
-import { renderOkMessage } from './form.js';
-import { locationRange } from './data.js';
-import { getRandomFloat } from './utilites.js';
+import { fillOffer } from './form-generator.js';
+import { mapFiltersForm, setMapFilters, filterOffers } from './feature-filter.js';
+import { addForm } from './form-validations.js';
+import { getOffer, showError } from './api.js';
+import { debounce } from './utilites.js';
 
-const DECIMALS = 5;
-const ADVERTS_COUNTER = 10;
-const TIME_INTERVAL = 500;
-const START_LOCATION = {
-    lat: getRandomFloat(locationRange.lat.from, locationRange.lat.to, DECIMALS),
-    lng: getRandomFloat(locationRange.lng.from, locationRange.lng.to, DECIMALS),
+const MAIN_PIN_SIZE = 52;
+const AD_PIN_SIZE = 40;
+const BASE_LAT = 35.68948;
+const BASE_LNG = 139.69170;
+const BASE_MAP_SCALING = 13;
+const DECIMAL = 5;
+const OFFERS_COUNT = 10;
+const map = L.map('map-canvas');
+const adress = document.querySelector('#address');
+
+const toggleClass = (element, className, value) => {
+	element.classList.toggle(className, value);
 };
 
-const sliderElement = document.querySelector('.ad-form__slider');
-const formFilter = document.querySelector('.map__filters');
-const resetButton = document.querySelector('.ad-form__reset');
-const addressInput = document.querySelector('#address');
-const interactiveMap = L.map('map-canvas');
-const markerGroup = L.layerGroup();
-let interactiveMarker;
-let marker;
-let timer;
-
-const setStartAddress = () => {
-    addressInput.value = `${START_LOCATION.lat}, ${START_LOCATION.lng}`;
+const toggleFormElements = (formElements, value) => {
+	formElements.forEach((element) => { element.disabled = value; });
 };
 
-const setLocation = (target) => {
-    const location = target.getLatLng();
-    addressInput.value = `${location.lat.toFixed(DECIMALS)}, ${location.lng.toFixed(DECIMALS)}`;
+const toggleAdForm = (value) => {
+	toggleClass(addForm, 'ad-form--disabled', value);
+	toggleFormElements(addForm.querySelectorAll('fieldset'), value);
 };
 
-const addMarkerGroup = (data) => {
-    markerGroup.addTo(interactiveMap);
-    setDataRanking(data)
-        .slice()
-        .filter(filterData)
-        .slice(0, ADVERTS_COUNTER)
-        .forEach((offer) => {
-            marker = L.marker(
-                offer.location,
-                {
-                    icon: L.icon({
-                        iconUrl: './img/pin.svg',
-                        iconSize: [40, 40],
-                        iconAnchor: [20, 40],
-                    }),
-                },
-            );
-            marker
-                .addTo(markerGroup)
-                .bindPopup(createCard(offer));
-        });
+const toggleFiltersForm = (value) => {
+	toggleClass(mapFiltersForm, 'map__filters--disabled', value);
+	toggleFormElements(mapFiltersForm.querySelectorAll('select, .map__features'), value);
 };
 
-const onMarkerMove = (evt) => setLocation(evt.target);
-
-const resetMap = () => {
-    interactiveMarker.setLatLng(START_LOCATION);
-    interactiveMap.setView(START_LOCATION, 12);
+const toggleForms = (value) => {
+	toggleAdForm(value);
+	toggleFiltersForm(value);
 };
 
-const onResetButtonClick = () => {
-    setTimeout(() => setStartAddress());
-    clearImageBlocks();
-    sliderElement.noUiSlider.reset();
-    resetMap();
-    formFilter.reset();
+const mainPinMarker = L.icon({
+	iconUrl: '../img/main-pin.svg',
+	iconSize: [MAIN_PIN_SIZE, MAIN_PIN_SIZE],
+	iconAnchor: [MAIN_PIN_SIZE / 2, MAIN_PIN_SIZE],
+});
+
+const adPin = L.icon({
+	iconUrl: '../img/pin.svg',
+	iconSize: [AD_PIN_SIZE, AD_PIN_SIZE],
+	iconAnchor: [AD_PIN_SIZE / 2, AD_PIN_SIZE],
+});
+
+const marker = L.marker(
+	{
+		lat: BASE_LAT,
+		lng: BASE_LNG,
+	},
+	{
+		draggable: true,
+		icon: mainPinMarker,
+	},
+);
+
+const markerGroup = L.layerGroup().addTo(map);
+
+const createMarker = (point) => {
+	const { location } = point;
+	const adMarker = L.marker(
+		{
+			lat: location.lat,
+			lng: location.lng,
+		},
+		{
+			icon: adPin,
+		},
+	);
+	adMarker
+		.addTo(markerGroup)
+		.bindPopup(fillOffer(point));
 };
 
-const activateAddForm = () => {
-    activateAdvertForm();
-    setStartAddress();
-    setAdFormActions(renderOkMessage, renderPostErrorMessage);
-    createSlider();
-    addPhotoInputsListeners();
-    resetButton.addEventListener('click', onResetButtonClick);
-};
-
-const setMapChange = (data) => {
-    formFilter.addEventListener('change', () => {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            markerGroup.clearLayers();
-            resetMap();
-            addMarkerGroup(data);
-        }, TIME_INTERVAL);
-    });
-};
-
-const getDataCallback = (data) => {
-    activateMapFilterForm();
-    addMarkerGroup(data);
-    setMapChange(data);
+const renderMarkers = (offers) => {
+	offers
+		.slice()
+		.slice(0, OFFERS_COUNT)
+		.forEach((point) => createMarker(point));
 };
 
 const createMap = () => {
-    interactiveMap.on('load', () => {
-        getData(getDataCallback, renderGetErrorMessage);
-        activateAddForm();
-    })
-        .setView(START_LOCATION, 12);
+	map.on('load', () => {
+		getOffer((offers) => {
+			setMapFilters(debounce(
+				() => renderMarkers(filterOffers(offers)),
+			));
+			renderMarkers(offers);
+			toggleForms(false);
+		}, () => showError('Не удалось получить данные. Попробуйте ещё раз'));
+	})
+		.setView({
+			lat: BASE_LAT,
+			lng: BASE_LNG,
+		}, BASE_MAP_SCALING);
+};
+const resetMap = () => map.setView({
+	lat: BASE_LAT,
+	lng: BASE_LNG,
+});
 
-    L.tileLayer(
-        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        {
-            foo: 'bar',
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        },
-    ).addTo(interactiveMap);
+L.tileLayer(
+	'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+	{
+		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	},
+).addTo(map);
 
-    interactiveMarker = L.marker(START_LOCATION,
-        {
-            draggable: 'true',
-            icon: L.icon({
-                iconUrl: './img/main-pin.svg',
-                iconSize: [52, 52],
-                iconAnchor: [26, 52],
-            }),
-        }).addTo(interactiveMap);
-
-    interactiveMarker.on('moveend', onMarkerMove);
+const resetMarker = () => {
+	marker.setLatLng({
+		lat: BASE_LAT,
+		lng: BASE_LNG,
+	});
 };
 
-export { createMap, resetMap, setStartAddress };
+marker.addTo(map);
+
+marker.on('drag', (evt) => {
+	const coordinates = evt.target.getLatLng();
+	adress.value = `${coordinates.lat.toFixed(DECIMAL)}, ${coordinates.lng.toFixed(DECIMAL)}`;
+});
+
+export { addForm, markerGroup, createMap, resetMap, resetMarker, renderMarkers, toggleForms, toggleFiltersForm };

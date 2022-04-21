@@ -1,104 +1,60 @@
-/* eslint-disable indent */
-/* eslint-disable indent */
-import { sendData } from './api.js';
+import { TypePrice, blockSubmitButton, unblockSubmitButton } from './form.js';
+import { sendOffer } from './api.js';
 
-const MAX_PRICE_HOUSING = 100000;
-const minPriceHousing = {
-    bungalow: 0,
-    flat: 1000,
-    hotel: 3000,
-    house: 5000,
-    palace: 10000,
+const addForm = document.querySelector('.ad-form');
+const accommodationType = document.querySelector('#type');
+const price = document.querySelector('#price');
+const rooms = document.querySelector('#room_number');
+const guests = document.querySelector('#capacity');
+const MAX_ROOMS = 100;
+const MIN_ROOMS = 0;
+
+const pristine = new Pristine(addForm, {
+	classTo: 'ad-form__element',
+	errorTextParent: 'ad-form__element',
+	errorTextClass: 'ad-form__error-text',
+}, false);
+
+const validatePrice = () => price.value >= TypePrice[accommodationType.value];
+
+const validateRoomsAndGuests = () => Number(rooms.value) === MAX_ROOMS && Number(guests.value) === MIN_ROOMS || Number(guests.value) <= Number(rooms.value) && Number(rooms.value) !== MAX_ROOMS && Number(guests.value) !== MIN_ROOMS;
+
+const showPriceValidationError = () => `Минимальная цена должна быть больше ${TypePrice[accommodationType.value]}`;
+
+pristine.addValidator(price, validatePrice, showPriceValidationError);
+
+pristine.addValidator(
+	rooms,
+	validateRoomsAndGuests,
+	'Количество комнат должно быть меньше или равно количеству гостей'
+);
+
+pristine.addValidator(
+	guests,
+	validateRoomsAndGuests,
+	'Количество гостей должно быть меньше или равно количеству комнат'
+);
+
+const setUserFromSubmit = (onSuccess, onFail) => {
+	addForm.addEventListener('submit', (evt) => {
+		evt.preventDefault();
+		const isValid = pristine.validate();
+		if (isValid) {
+			blockSubmitButton();
+			sendOffer(
+				() => {
+					onSuccess();
+					unblockSubmitButton();
+				},
+				() => {
+					onFail();
+					unblockSubmitButton();
+				},
+				new FormData(evt.target)
+			);
+		}
+	});
 };
 
-const adFormTitle = document.querySelector('.ad-form');
-const submitButton = document.querySelector('.ad-form__submit');
+export { setUserFromSubmit, addForm };
 
-const pristine = new Pristine(adFormTitle, {
-    classTo: 'ad-form__element',
-    errorTextParent: 'ad-form__element',
-    errorClass: 'ad-form--invalid',
-    successClass: 'ad-form--valid',
-    errorTextTag: 'p',
-    errorTextClass: 'ad-form__element--error-text',
-});
-
-const titleAdvert = adFormTitle.querySelector('#title');
-const validateTitleAdvert = (value) => value.length >= 30 && value.length <= 100;
-const getErrorTitle = () => 'Длина заголовка должна быть от 30 до 100 символов';
-
-pristine.addValidator(titleAdvert, validateTitleAdvert, getErrorTitle);
-
-const typeRoom = adFormTitle.querySelector('#type');
-const priceRoom = adFormTitle.querySelector('#price');
-
-const validatePriceAdvert = () =>
-    priceRoom.value >= minPriceHousing[typeRoom.value] && priceRoom.value <= MAX_PRICE_HOUSING;
-
-const getErrorPrice = () => {
-    if (priceRoom.value <= minPriceHousing[typeRoom.value]) {
-        return `Минимальная цена ${minPriceHousing[typeRoom.value]}`;
-    } else if (priceRoom.value >= MAX_PRICE_HOUSING) {
-        return `Максимальная цена ${MAX_PRICE_HOUSING}`;
-    }
-};
-
-const timeIn = adFormTitle.querySelector('#timein');
-const timeOut = adFormTitle.querySelector('#timeout');
-
-const onTimeInChange = () => {
-    timeOut.value = timeIn.value;
-};
-
-const onTimeOutChange = () => {
-    timeIn.value = timeOut.value;
-};
-
-const roomsInput = adFormTitle.querySelector('#room_number');
-const capacityInput = adFormTitle.querySelector('#capacity');
-const roomsToOption = {
-    1: ['1'],
-    2: ['1', '2'],
-    3: ['1', '2', '3'],
-    100: ['0'],
-};
-
-const validateRoomsInput = () => roomsToOption[roomsInput.value].includes(capacityInput.value);
-
-const getRoomsError = () => {
-    if (roomsInput.value === '1') {
-        return 'Размещение для одного гостя';
-    }
-    if (roomsInput.value === '2') {
-        return 'Размещение от одного до двух гостей';
-    }
-    if (roomsInput.value === '3') {
-        return 'Размещение от одного до трех гостей';
-    }
-    if (roomsInput.value === '100') {
-        return 'Не для гостей';
-    }
-};
-
-const setAdFormActions = (onSuccess, onError) => {
-    pristine.addValidator(capacityInput, validateRoomsInput, getRoomsError);
-    timeIn.addEventListener('change', onTimeInChange);
-    timeOut.addEventListener('change', onTimeOutChange);
-    pristine.addValidator(priceRoom, validatePriceAdvert, getErrorPrice);
-    typeRoom.addEventListener('change', () => {
-        priceRoom.placeholder = minPriceHousing[typeRoom.value];
-        priceRoom.min = minPriceHousing[typeRoom.value];
-    });
-
-    adFormTitle.addEventListener('submit', (evt) => {
-        evt.preventDefault();
-
-        if (pristine.validate()) {
-            submitButton.disabled = true;
-            const formData = new FormData(adFormTitle);
-            sendData(onSuccess, onError, formData);
-        }
-    });
-};
-
-export { setAdFormActions };
