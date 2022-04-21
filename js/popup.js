@@ -1,7 +1,7 @@
 /* eslint-disable indent */
 let message;
 
-const isPressedEscapeKey = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
+const isPressedEscapeKey = (evt) => evt.key === 'Escape';
 
 const onDocumentEscKeydown = (evt) => {
 	if (isPressedEscapeKey(evt)) {

@@ -1,6 +1,6 @@
 /* eslint-disable indent */
-import { createOffer } from './cards-generator.js';
-import { mapFiltersForm, setMapFilters, filterOffers } from './card-filter.js';
+import { fillOffer } from './form-generator.js';
+import { mapFiltersForm, setMapFilters, filterOffers } from './feature-filter.js';
 import { addForm } from './form-validations.js';
 import { getOffer, showError } from './api.js';
 import { debounce } from './utilites.js';
@@ -76,7 +76,7 @@ const createMarker = (point) => {
 	);
 	adMarker
 		.addTo(markerGroup)
-		.bindPopup(createOffer(point));
+		.bindPopup(fillOffer(point));
 };
 
 const renderMarkers = (offers) => {
@@ -127,4 +127,4 @@ marker.on('drag', (evt) => {
 	adress.value = `${coordinates.lat.toFixed(DECIMAL)}, ${coordinates.lng.toFixed(DECIMAL)}`;
 });
 
-export { createMap, resetMap, addForm, resetMarker, markerGroup, renderMarkers, toggleForms, toggleFiltersForm };
+export { addForm, markerGroup, createMap, resetMap, resetMarker, renderMarkers, toggleForms, toggleFiltersForm };

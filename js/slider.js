@@ -1,10 +1,10 @@
 /* eslint-disable indent */
 import { price } from './form.js';
 
-const sliderElement = document.querySelector('#slider');
+const slider = document.querySelector('#slider');
 
 const createSlider = () => {
-	noUiSlider.create(sliderElement, {
+	noUiSlider.create(slider, {
 		start: [5000],
 		connect: [true, false],
 		tooltips: true,
@@ -18,7 +18,7 @@ const createSlider = () => {
 		}
 	});
 
-	sliderElement.noUiSlider.on('change', (values, handle) => {
+	slider.noUiSlider.on('change', (values, handle) => {
 		price.value = Math.floor(values[handle]);
 	});
 };

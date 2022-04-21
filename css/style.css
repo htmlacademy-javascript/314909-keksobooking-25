@@ -143,8 +143,8 @@ fieldset {
 
 .map__filter:focus {
 	outline: none;
-	-webkit-box-shadow: 0 0 2px 2px #ff6547;
-	box-shadow: 0 0 2px 2px #ff6547;
+	-webkit-box-shadow: 0 0 2px 2px #ffaf47;
+	box-shadow: 0 0 2px 2px #bee6b4;
 }
 
 .map__feature {
