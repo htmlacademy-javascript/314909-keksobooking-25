@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import { onResetButtonClick } from './form.js';
 
 const ERROR_SHOW_TIME = 5000;

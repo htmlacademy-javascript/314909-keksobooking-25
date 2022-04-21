@@ -1,11 +1,11 @@
 {
-	"folders": [
-		{
-			"path": ".."
-		},
-		{
-			"path": "..\\..\\..\\..\\Само\\htmlacademy_ReactPro\\fox-booking\\1841149-keksobooking-25-master\\noUiSlider"
-		}
-	],
-	"settings": {}
+  "folders": [
+    {
+      "path": ".."
+    },
+    {
+      "path": "..\\..\\..\\..\\Само\\htmlacademy_ReactPro\\fox-booking\\1841149-keksobooking-25-master\\noUiSlider"
+    }
+  ],
+  "settings": {}
 }
