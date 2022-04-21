@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import { addForm, resetMap, resetMarker, renderMarkers } from './map.js';
 import { mapFiltersForm } from './feature-filter.js';
 import { getOffer } from './api.js';

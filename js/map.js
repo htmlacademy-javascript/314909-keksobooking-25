@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import { fillOffer } from './form-generator.js';
 import { mapFiltersForm, setMapFilters, filterOffers } from './feature-filter.js';
 import { addForm } from './form-validations.js';

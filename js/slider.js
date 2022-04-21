@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import { price } from './form.js';
 
 const slider = document.querySelector('#slider');

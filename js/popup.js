@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 let message;
 
 const isPressedEscapeKey = (evt) => evt.key === 'Escape';

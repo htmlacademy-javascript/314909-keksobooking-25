@@ -1,6 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
-
 import './form.js';
 import './slider.js';
 import { toggleForms, createMap } from './map.js';

@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import { TypePrice, blockSubmitButton, unblockSubmitButton } from './form.js';
 import { sendOffer } from './api.js';
 

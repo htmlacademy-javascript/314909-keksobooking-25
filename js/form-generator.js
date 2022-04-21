@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 const TEMPLATE_FRAGMENT = document.querySelector('#card').content;
 const TEMPLATE = TEMPLATE_FRAGMENT.querySelector('.popup');
 const PHOTO_TEMPLATE = TEMPLATE_FRAGMENT.querySelector('.popup__photo');
