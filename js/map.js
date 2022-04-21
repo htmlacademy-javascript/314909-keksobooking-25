@@ -101,7 +101,6 @@ const createMap = () => {
 			lng: BASE_LNG,
 		}, BASE_MAP_SCALING);
 };
-
 const resetMap = () => map.setView({
 	lat: BASE_LAT,
 	lng: BASE_LNG,

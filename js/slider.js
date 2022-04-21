@@ -5,20 +5,16 @@ const sliderElement = document.querySelector('#slider');
 
 const createSlider = () => {
 	noUiSlider.create(sliderElement, {
+		start: [5000],
+		connect: [true, false],
+		tooltips: true,
+		step: 100,
 		range: {
-			min: 0,
-			max: 100000,
-		},
-		start: 5000,
-		step: 1000,
-		connect: 'lower',
-		format: {
-			to: function (value) {
-				return value;
-			},
-			from: function (value) {
-				return parseFloat(value);
-			},
+			'min': [0],
+			'10%': [500, 100],
+			'50%': [4000, 500],
+			'70%': [10000, 500],
+			'max': [100000]
 		}
 	});
 
@@ -28,3 +24,4 @@ const createSlider = () => {
 };
 
 export { createSlider };
+
