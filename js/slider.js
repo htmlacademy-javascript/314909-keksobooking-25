@@ -1,6 +1,7 @@
 /* eslint-disable indent */
-const sliderElement = document.querySelector('.ad-form__slider');
-const valueElement = document.querySelector('#price');
+import { price } from './form.js';
+
+const sliderElement = document.querySelector('#slider');
 
 const createSlider = () => {
     noUiSlider.create(sliderElement, {
@@ -21,8 +22,8 @@ const createSlider = () => {
         }
     });
 
-    sliderElement.noUiSlider.on('update', () => {
-        valueElement.value = sliderElement.noUiSlider.get();
+    sliderElement.noUiSlider.on('update', (values, handle) => {
+        price.value = Math.floor(values[handle]);
     });
 };
 

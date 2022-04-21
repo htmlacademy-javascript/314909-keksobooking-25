@@ -29,4 +29,4 @@ const activateMapFilterForm = () => {
     mapFilterInteractiveElements.forEach((element) => element.removeAttribute('disabled', 'disabled'));
 };
 
-export { deactivateForms, activateAdvertForm, activateMapFilterForm };
+export { deactivateForms, activateAdvertForm, activateMapFilterForm, mapFilterForm };
