@@ -3,14 +3,11 @@ import { onResetButtonClick } from './form.js';
 const ERROR_SHOW_TIME = 5000;
 const DATABASE_URL = 'https://25.javascript.pages.academy/keksobooking';
 const DATABSE_OFFERS_URL = `${DATABASE_URL}/data`;
-
 const showError = (error) => {
   const errorContainer = document.createElement('div');
   errorContainer.classList.add('error-container');
   errorContainer.textContent = error;
-
   document.body.append(errorContainer);
-
   setTimeout(() => {
     errorContainer.remove();
   }, ERROR_SHOW_TIME);
@@ -40,7 +37,8 @@ const sendOffer = (onSuccess, onFail, body) => {
       } else {
         onFail('Не удалось отправить форму. Попробуйте ещё раз');
       }
-    }).catch(() => {
+    })
+    .catch(() => {
       onFail('Не удалось отправить форму. Попробуйте ещё раз');
     });
 };
