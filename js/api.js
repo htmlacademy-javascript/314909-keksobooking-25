@@ -12,36 +12,36 @@ const showError = (error) => {
   document.body.append(errorContainer);
 
   setTimeout(() => {
-	errorContainer.remove();
+    errorContainer.remove();
   }, ERROR_SHOW_TIME);
 };
 
 const getOffer = (onSuccess, onFail) => {
   fetch(DATABSE_OFFERS_URL)
-	.then((response) => response.json())
-	.then((offers) => {
-	  onSuccess(offers);
-	})
-	.catch(onFail);
+    .then((response) => response.json())
+    .then((offers) => {
+      onSuccess(offers);
+    })
+    .catch(onFail);
 };
 
 const sendOffer = (onSuccess, onFail, body) => {
   fetch(
-	DATABASE_URL,
-	{
-	  method: 'POST',
-	  body,
-	},
+    DATABASE_URL,
+    {
+      method: 'POST',
+      body,
+    },
   )
-  .then((response) => {
-	if (response.ok) {
-		onSuccess();
-		onResetButtonClick();
-	} else {
-		onFail('Не удалось отправить форму. Попробуйте ещё раз');
-	}
-  }).catch(() => {
-	  onFail('Не удалось отправить форму. Попробуйте ещё раз');
+    .then((response) => {
+      if (response.ok) {
+        onSuccess();
+        onResetButtonClick();
+      } else {
+        onFail('Не удалось отправить форму. Попробуйте ещё раз');
+      }
+    }).catch(() => {
+      onFail('Не удалось отправить форму. Попробуйте ещё раз');
     });
 };
 
