@@ -7,3 +7,4 @@ import { showSuccessPopup, showErrorPopup } from './popup.js';
 toggleForms(true);
 createMap();
 setUserFromSubmit(showSuccessPopup, showErrorPopup);
+

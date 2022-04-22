@@ -56,7 +56,7 @@ const fillOffer = ({ offer, author }) => {
       const isNecessary = offer.features.some(
         (feature) => featureListItem.classList.contains(`popup__feature--${feature}`)
       );
-    if (!isNecessary) {
+      if (!isNecessary) {
         featureListItem.remove();
       }
     });
@@ -78,7 +78,7 @@ const fillOffer = ({ offer, author }) => {
       element.querySelector('.popup__photos').append(item);
     });
   } else {
-	  hideElement(element.querySelector('.popup__photos'));
+    hideElement(element.querySelector('.popup__photos'));
   }
 
   if (author.avatar) {

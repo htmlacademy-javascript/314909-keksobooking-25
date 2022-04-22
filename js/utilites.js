@@ -1,5 +1,5 @@
 const DELAY = 500;
-function debounce (callback) {
+function debounce(callback) {
   let timeoutId;
   return (...rest) => {
     clearTimeout(timeoutId);

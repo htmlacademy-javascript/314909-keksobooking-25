@@ -109,4 +109,3 @@ avatar.addEventListener('change', onAvatarImageChange, false);
 photos.addEventListener('change', onPhotoImagesChange, false);
 
 export { price, TypePrice, onResetButtonClick, blockSubmitButton, unblockSubmitButton };
-

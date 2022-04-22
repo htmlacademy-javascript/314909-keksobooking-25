@@ -31,7 +31,7 @@ const setMapFilters = (cb) => {
   });
 };
 
-const filterByLivingType = ({offer}) => {
+const filterByLivingType = ({ offer }) => {
   if (livingTypeInput.value === 'any') {
     return offer;
   }
@@ -46,20 +46,20 @@ const filterByRooms = ({ offer }) => (roomsInput.value === 'any') ? offer : offe
 
 const filterByGuests = ({ offer }) => (guestsInput.value === 'any') ? offer : offer.guests === Number(guestsInput.value);
 
-const filterByFeatures = ({offer}) => {
+const filterByFeatures = ({ offer }) => {
   const filtersFeatures = [];
   const checkedFilters = document.querySelector('.map__features').querySelectorAll('input:checked');
   checkedFilters.forEach((el) => filtersFeatures.push(el.value));
-  if (offer.features){
+  if (offer.features) {
     return filtersFeatures.every((feature) => offer.features.includes(feature));
   }
   return false;
 };
 
 const filterOffers = (offers) => offers.filter((offer) => (filterByLivingType(offer) &&
-filterByPrice(offer) &&
-filterByRooms(offer) &&
-filterByGuests(offer) &&
-filterByFeatures(offer)));
+  filterByPrice(offer) &&
+  filterByRooms(offer) &&
+  filterByGuests(offer) &&
+  filterByFeatures(offer)));
 
 export { setMapFilters, filterOffers, mapFiltersForm };
