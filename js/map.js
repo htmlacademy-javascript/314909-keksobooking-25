@@ -65,13 +65,13 @@ const markerGroup = L.layerGroup().addTo(map);
 const createMarker = (point) => {
   const { location } = point;
   const adMarker = L.marker(
-  {
-    lat: location.lat,
-    lng: location.lng,
-  },
-  {
-    icon: adPin,
-  },
+    {
+      lat: location.lat,
+      lng: location.lng,
+    },
+    {
+      icon: adPin,
+    },
   );
   adMarker
     .addTo(markerGroup)
@@ -89,16 +89,16 @@ const createMap = () => {
   map.on('load', () => {
     getOffer((offers) => {
       setMapFilters(debounce(
-	() => renderMarkers(filterOffers(offers)),
+        () => renderMarkers(filterOffers(offers)),
       ));
       renderMarkers(offers);
       toggleForms(false);
     }, () => showError('Не удалось получить данные. Попробуйте ещё раз'));
   })
-  .setView({
-    lat: BASE_LAT,
-    lng: BASE_LNG,
-  }, BASE_MAP_SCALING);
+    .setView({
+      lat: BASE_LAT,
+      lng: BASE_LNG,
+    }, BASE_MAP_SCALING);
 };
 const resetMap = () => map.setView({
   lat: BASE_LAT,

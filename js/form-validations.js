@@ -42,15 +42,15 @@ const setUserFromSubmit = (onSuccess, onFail) => {
     if (isValid) {
       blockSubmitButton();
       sendOffer(
-	() => {
-	  onSuccess();
-	  unblockSubmitButton();
-	},
-	() => {
-	  onFail();
-	  unblockSubmitButton();
-	},
-	new FormData(evt.target)
+        () => {
+          onSuccess();
+          unblockSubmitButton();
+        },
+        () => {
+          onFail();
+          unblockSubmitButton();
+        },
+        new FormData(evt.target)
       );
     }
   });
