@@ -21,4 +21,3 @@ slider.noUiSlider.on('change', (values, handle) => {
 });
 
 export { slider };
-
